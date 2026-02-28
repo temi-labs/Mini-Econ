@@ -1,0 +1,419 @@
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { ArrowRight, Star, Heart, ShieldCheck, Truck, Clock, Quote } from 'lucide-react';
+import { products } from '../data/products';
+import { motion } from 'framer-motion';
+
+const CountdownTimer = () => {
+  const [timeLeft, setTimeLeft] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0
+  });
+
+  useEffect(() => {
+    // Set target date to 3 days from now
+    const targetDate = new Date();
+    targetDate.setDate(targetDate.getDate() + 3);
+
+    const interval = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = targetDate.getTime() - now;
+
+      if (distance < 0) {
+        clearInterval(interval);
+        return;
+      }
+
+      setTimeLeft({
+        days: Math.floor(distance / (1000 * 60 * 60 * 40)),
+        hours: Math.floor((distance % (1000 * 60 * 50 * 40)) / (1000 * 60 * 60)),
+        minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+        seconds: Math.floor((distance % (1000 * 60)) / 1000)
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="flex gap-4 md:gap-8 text-center">
+      {Object.entries(timeLeft).map(([unit, value]) => (
+        <div key={unit} className="flex flex-col items-center">
+          <div className="w-16 h-16 md:w-20 md:h-20 bg-[#1a1a1a] border border-white/10 rounded-2xl flex items-center justify-center mb-2">
+            <span className="text-2xl md:text-3xl font-mono font-bold text-[#E3C598]">
+              {value.toString().padStart(2, '0')}
+            </span>
+          </div>
+          <span className="text-xs text-gray-500 uppercase tracking-wider">{unit}</span>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const Home: React.FC = () => {
+  const featuredProducts = products.slice(0, 3);
+
+  return (
+    <div className="space-y-24 pb-24">
+      {/* Hero Section */}
+      <section className="relative h-[90vh] flex items-start pt-20 sm:pt-0 sm:items-center overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img
+            src="https://images.unsplash.com/photo-1617038220319-276d3cfab638?auto=format&fit=crop&q=80&w=2000"
+            alt="Hero Background"
+            className="w-full h-full object-cover opacity-60"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a]/80 via-transparent to-transparent" />
+        </div>
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+          <motion.div 
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="max-w-3xl"
+          >
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-12 h-12 rounded-full border border-white/30 flex items-center justify-center">
+                <Star className="text-[#E3C598]" size={20} fill="#E3C598" />
+              </div>
+              <p className="text-sm tracking-widest text-gray-300 uppercase">
+                Discover a world of bling and expression
+              </p>
+            </div>
+            
+            <h1 className="text-4xl sm:text-6xl md:text-8xl font-display font-black italic tracking-tighter leading-tight sm:leading-[0.9] mb-8 uppercase">
+              Spark your shine <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#E3C598] via-white to-[#E3C598]">
+                with hip-hop jewelry
+              </span>
+            </h1>
+
+            <div className="flex flex-wrap gap-6">
+              <Link 
+                to="/products" 
+                className="px-8 py-4 bg-white text-black rounded-full font-bold tracking-wide hover:bg-[#E3C598] transition-colors duration-300"
+              >
+                COLLECTION
+              </Link>
+              <Link 
+                to="/products" 
+                className="px-8 py-4 border border-white/30 text-white rounded-full font-bold tracking-wide hover:bg-white hover:text-black transition-all duration-300 flex items-center gap-2"
+              >
+                SHOP NOW <ArrowRight size={18} />
+              </Link>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Floating Product Card (Hero) */}
+        <motion.div 
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.5, duration: 0.8 }}
+          className="absolute right-10 top-1/3 hidden lg:block"
+        >
+          <div className="bg-[#1a1a1a]/90 backdrop-blur-md p-6 rounded-3xl border border-white/10 w-72">
+            <div className="flex justify-between items-start mb-4">
+              <img 
+                src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&q=80&w=200" 
+                alt="Grillz" 
+                className="w-16 h-16 rounded-xl object-cover"
+              />
+              <span className="text-xs font-mono text-gray-400">01 / 04</span>
+            </div>
+            <h3 className="font-display font-bold text-lg mb-1">GRILLZ LV SILVER</h3>
+            <p className="text-xs text-gray-400 mb-4">Amplify your smile with our personalized grillz</p>
+            <div className="flex justify-between items-center">
+              <span className="font-mono text-xl">$1599</span>
+              <button className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center hover:bg-[#E3C598] hover:border-[#E3C598] hover:text-black transition-colors">
+                <ArrowRight size={14} />
+              </button>
+            </div>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* New Drop Countdown Section */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-gradient-to-r from-[#1a1a1a] to-[#0a0a0a] rounded-[2rem] p-8 md:p-12 border border-white/5 flex flex-col lg:flex-row items-center justify-between gap-12 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-[#E3C598]/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+          
+          <div className="relative z-10 text-center lg:text-left">
+            <span className="inline-block px-4 py-1 bg-[#E3C598] text-black text-xs font-bold rounded-full mb-4">
+              UPCOMING DROP
+            </span>
+            <h2 className="text-4xl md:text-5xl font-display font-bold mb-4">
+              The Midnight <br /> Collection
+            </h2>
+            <p className="text-gray-400 max-w-md mx-auto lg:mx-0">
+              Be the first to cop our exclusive limited edition black diamond series. 
+              Sign up for early access.
+            </p>
+          </div>
+
+          <div className="relative z-10">
+            <CountdownTimer />
+          </div>
+
+          <div className="relative z-10">
+            <button className="px-8 py-4 bg-white text-black rounded-full font-bold hover:bg-[#E3C598] transition-colors">
+              NOTIFY ME
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Design Your Own Section */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2 bg-[#1a1a1a] rounded-[2rem] p-12 relative overflow-hidden group cursor-pointer border border-white/5 hover:border-[#E3C598]/30 transition-colors">
+            <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-transparent z-10" />
+            <img 
+              src="https://images.unsplash.com/photo-1626784215021-2e39ccf971cd?auto=format&fit=crop&q=80&w=1000" 
+              alt="Custom Jewelry" 
+              className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700"
+            />
+            <div className="relative z-20 h-full flex flex-col justify-center">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center">
+                  <Star className="text-white" size={20} />
+                </div>
+                <div className="w-12 h-12 rounded-full overflow-hidden border border-white/20">
+                   <img src="https://images.unsplash.com/photo-1531384441138-2736e62e0919?auto=format&fit=crop&q=80&w=100" alt="Chain" className="w-full h-full object-cover" />
+                </div>
+              </div>
+              <h2 className="text-4xl font-display font-bold mb-4">Design your own <br /> custom jewelry</h2>
+              <p className="text-gray-400 max-w-md mb-8">Craft a one-of-a-kind statement piece that reflects your unique style.</p>
+              <button className="w-12 h-12 rounded-full border border-white/30 flex items-center justify-center hover:bg-[#E3C598] hover:text-black transition-colors">
+                <ArrowRight size={20} />
+              </button>
+            </div>
+          </div>
+
+          <div className="bg-[#E3C598] rounded-[2rem] p-12 flex flex-col justify-between text-black relative overflow-hidden">
+             <div className="relative z-10">
+                <div className="flex justify-between items-start mb-8">
+                  <h3 className="text-2xl font-display font-bold">Artist That <br /> Choose Us</h3>
+                  <div className="flex -space-x-2">
+                    {[1, 2, 3].map((i) => (
+                      <div key={i} className="w-3 h-3 rounded-full bg-black/20" />
+                    ))}
+                  </div>
+                </div>
+                <div className="flex -space-x-4 mb-4">
+                  {[
+                    'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=100',
+                    'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=100',
+                    'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=100'
+                  ].map((src, i) => (
+                    <img key={i} src={src} alt="Artist" className="w-16 h-16 rounded-full border-2 border-[#E3C598] object-cover" />
+                  ))}
+                </div>
+             </div>
+             <div className="absolute -bottom-10 -right-10 w-64 h-64 bg-white/20 rounded-full blur-3xl" />
+          </div>
+        </div>
+      </section>
+
+      {/* Why Choose Us Section */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {[
+            { icon: <ShieldCheck size={32} />, title: "Lifetime Warranty", desc: "We stand by our craftsmanship with a lifetime guarantee on all pieces." },
+            { icon: <Truck size={32} />, title: "Free Shipping", desc: "Complimentary insured shipping on all orders over $200 worldwide." },
+            { icon: <Clock size={32} />, title: "24/7 Support", desc: "Our dedicated team is here to assist you anytime, day or night." }
+          ].map((feature, i) => (
+            <div key={i} className="bg-[#1a1a1a] p-8 rounded-3xl border border-white/5 hover:border-[#E3C598]/30 transition-colors group">
+              <div className="w-16 h-16 bg-[#0a0a0a] rounded-2xl flex items-center justify-center text-[#E3C598] mb-6 group-hover:scale-110 transition-transform">
+                {feature.icon}
+              </div>
+              <h3 className="font-display font-bold text-xl mb-3">{feature.title}</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">{feature.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* New Arrivals Section */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-12">
+          <div>
+            <h2 className="text-5xl md:text-7xl font-display font-bold mb-4">New Ice Jewelry</h2>
+            <p className="text-gray-400 max-w-xl text-sm leading-relaxed">
+              Unleash your inner style icon and express yourself through our range of jewelry types.
+              Whether you're seeking an iconic pendant that tells your story...
+            </p>
+          </div>
+          <div className="flex items-center gap-4 mt-8 md:mt-0">
+             <span className="text-6xl font-display font-bold text-white">By Type</span>
+             <Link to="/new" className="px-6 py-3 bg-[#E3C598] text-black rounded-full font-bold text-sm hover:bg-[#d4b485] transition-colors">
+               SHOP NOW
+             </Link>
+          </div>
+        </div>
+
+        {/* Categories Filter */}
+        <div className="flex gap-4 overflow-x-auto pb-4 mb-8">
+          {['All', 'Bracelets', 'Pendants', 'Rings', 'Chains', 'Grillz'].map((cat, i) => (
+            <button 
+              key={cat}
+              className={`px-6 py-2 rounded-full text-sm border transition-all whitespace-nowrap flex-shrink-0 ${
+                i === 0 
+                  ? 'bg-white text-black border-white' 
+                  : 'bg-transparent text-gray-400 border-white/20 hover:border-white hover:text-white'
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+
+        {/* Product Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {featuredProducts.map((product) => (
+            <Link to={`/products/${product.id}`} key={product.id} className="group">
+              <div className="bg-[#1a1a1a] rounded-3xl p-4 border border-white/5 group-hover:border-[#E3C598]/50 transition-all duration-300 h-full flex flex-col">
+                <div className="relative aspect-square rounded-2xl overflow-hidden mb-4">
+                  <img 
+                    src={product.image} 
+                    alt={product.name} 
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  />
+                  <div className="absolute top-3 right-3 w-8 h-8 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-white hover:text-black transition-colors">
+                    <Heart size={14} />
+                  </div>
+                  <div className="absolute top-3 left-3 w-8 h-8 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center text-white">
+                    <ArrowRight size={14} className="-rotate-45" />
+                  </div>
+                </div>
+                
+                <div className="flex justify-between items-start mb-2">
+                  <span className="px-3 py-1 bg-white/5 rounded-full text-[10px] uppercase tracking-wider text-[#E3C598] border border-[#E3C598]/20">
+                    {product.category}
+                  </span>
+                  <div className="flex items-center gap-1 text-xs text-gray-400">
+                    <Star size={10} fill="#E3C598" className="text-[#E3C598]" />
+                    {product.rating}
+                  </div>
+                </div>
+
+                <h3 className="font-display font-bold text-lg mb-1">{product.name}</h3>
+                <div className="flex justify-between items-end mt-auto">
+                  <span className="font-mono text-lg text-gray-300">${product.price}</span>
+                  <span className="text-xs text-gray-500 line-through">${Math.round(product.price * 1.2)}</span>
+                </div>
+              </div>
+            </Link>
+          ))}
+          
+          {/* More Info Card */}
+          <div className="bg-[#1a1a1a] rounded-3xl p-4 border border-white/5 flex flex-col justify-center items-center text-center group cursor-pointer hover:bg-[#E3C598] hover:text-black transition-colors duration-300">
+             <div className="w-16 h-16 rounded-full border border-current flex items-center justify-center mb-4 group-hover:border-black">
+               <ArrowRight size={24} />
+             </div>
+             <h3 className="font-display font-bold text-xl">View All <br /> Products</h3>
+          </div>
+        </div>
+      </section>
+
+      {/* Trending Collections */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 className="text-4xl md:text-5xl font-display font-bold mb-12 text-center">Trending Collections</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="relative h-[400px] rounded-[2rem] overflow-hidden group cursor-pointer">
+            <img 
+              src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&q=80&w=1000" 
+              alt="Iced Out" 
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
+            <div className="absolute bottom-0 left-0 p-8">
+              <h3 className="text-3xl font-display font-bold mb-2">The Iced Out Collection</h3>
+              <p className="text-gray-300 mb-6 max-w-sm">Maximum shine for those who demand attention. VVS diamonds set in premium gold.</p>
+              <span className="inline-flex items-center gap-2 text-[#E3C598] font-bold group-hover:gap-4 transition-all">
+                EXPLORE <ArrowRight size={18} />
+              </span>
+            </div>
+          </div>
+          <div className="relative h-[400px] rounded-[2rem] overflow-hidden group cursor-pointer">
+            <img 
+              src="https://images.unsplash.com/photo-1573408301185-9146fe634ad0?auto=format&fit=crop&q=80&w=1000" 
+              alt="Gold Chains" 
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
+            <div className="absolute bottom-0 left-0 p-8">
+              <h3 className="text-3xl font-display font-bold mb-2">Cuban Link Essentials</h3>
+              <p className="text-gray-300 mb-6 max-w-sm">Timeless classics that never go out of style. Solid gold chains built to last.</p>
+              <span className="inline-flex items-center gap-2 text-[#E3C598] font-bold group-hover:gap-4 transition-all">
+                EXPLORE <ArrowRight size={18} />
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-[#1a1a1a] rounded-[2rem] p-12 border border-white/5 relative overflow-hidden">
+          <div className="absolute top-0 right-0 p-12 opacity-5">
+            <Quote size={200} />
+          </div>
+          <div className="relative z-10">
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-12 text-center">What Our Clients Say</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {[
+                { name: "Marcus J.", role: "Verified Buyer", text: "The quality is unmatched. I've bought chains from other places, but VibeVault is on another level. The shine is crazy!" },
+                { name: "Sarah K.", role: "Verified Buyer", text: "Customer service was amazing. They helped me design a custom pendant for my husband and he absolutely loves it." },
+                { name: "David R.", role: "Verified Buyer", text: "Fast shipping and the packaging was premium. Felt like I was opening a treasure chest. Definitely coming back for more." }
+              ].map((review, i) => (
+                <div key={i} className="bg-[#0a0a0a] p-6 rounded-2xl border border-white/5">
+                  <div className="flex gap-1 text-[#E3C598] mb-4">
+                    {[1, 2, 3, 4, 5].map(star => <Star key={star} size={14} fill="#E3C598" />)}
+                  </div>
+                  <p className="text-gray-300 mb-6 leading-relaxed">"{review.text}"</p>
+                  <div>
+                    <p className="font-bold text-white">{review.name}</p>
+                    <p className="text-xs text-gray-500">{review.role}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-[#1a1a1a] rounded-[2rem] p-12 border border-white/5 flex flex-col md:flex-row justify-between items-center gap-12">
+          <div className="flex items-center gap-6">
+            <div className="w-20 h-20 rounded-full border-2 border-[#E3C598] flex items-center justify-center">
+              <div className="w-16 h-16 bg-[#E3C598] rounded-full" />
+            </div>
+            <div>
+              <h3 className="text-5xl font-display font-bold mb-2">14,500+</h3>
+              <p className="text-gray-400 text-sm max-w-xs">
+                With a proud track record of delivering exceptional quality and style, we are thrilled to announce...
+              </p>
+            </div>
+          </div>
+          
+          <div className="flex -space-x-4">
+             {[1, 2, 3, 4].map((i) => (
+               <div key={i} className="w-16 h-16 rounded-full bg-gray-800 border-4 border-[#1a1a1a] overflow-hidden">
+                 <img src={`https://images.unsplash.com/photo-${1500000000000 + i}?auto=format&fit=crop&q=80&w=100`} alt="User" className="w-full h-full object-cover" />
+               </div>
+             ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default Home;
