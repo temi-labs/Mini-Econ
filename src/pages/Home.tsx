@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Star, Heart, ShieldCheck, Truck, Clock, Quote } from 'lucide-react';
 import { products } from '../data/products';
+import modelImg from '../assets/images/model.jpg';
+import model2Img from '../assets/images/model2.jpg';
+import model3Img from '../assets/images/model3.jpg';
 import { motion } from 'framer-motion';
 
 
@@ -97,7 +100,7 @@ const Home: React.FC = () => {
                {/* Model Image Container */}
               <div className="relative w-[250px] h-[450px] md:w-[400px] md:h-[650px] z-10 mt-10 md:mt-0">
                 <img 
-                  src="src/assets/images/model.jpg" 
+                  src={modelImg} 
                   alt="Fashion Model" 
                   loading="eager"
                   decoding="async"
@@ -138,7 +141,7 @@ const Home: React.FC = () => {
              <div className="relative">
                <span className="absolute -top-10 left-1/2 -translate-x-1/2 text-8xl font-display font-bold text-white stroke-text-black opacity-40">00</span>
                <img 
-                 src="src/assets/images/model2.jpg" 
+                 src={model2Img} 
                  alt="Model Sitting" 
                  loading="lazy"
                  decoding="async"
@@ -164,7 +167,7 @@ const Home: React.FC = () => {
              <div className="relative mb-8 " >
                 <span className="absolute -top-10 left-1/2 -translate-x-1/2 text-8xl font-display font-bold text-white stroke-text-black opacity-40">01</span>
                 <img 
-                  src="src/assets/images/model.jpg" 
+                  src={modelImg} 
                   alt="Model Close up" 
                   loading="lazy"
                   decoding="async"
@@ -178,7 +181,7 @@ const Home: React.FC = () => {
              <div className="relative ">
                  <span className="absolute -top-10 left-1/2 -translate-x-1/2 text-8xl font-display font-bold text-white stroke-text-black opacity-40">02</span>
                 <img 
-                  src="src/assets/images/model3.jpg" 
+                  src={model3Img} 
                   alt="Model Standing" 
                   loading="lazy"
                   decoding="async"

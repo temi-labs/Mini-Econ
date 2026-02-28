@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Gem, Users, Globe, Award } from 'lucide-react';
+import modelImg from '../assets/images/model.jpg';
+import leatherbag2 from '../assets/images/leatherbag2.jpg';
 
 const About: React.FC = () => {
   const stats = [
@@ -79,7 +81,7 @@ const About: React.FC = () => {
         <div className="order-1 md:order-2 relative">
           <div className="aspect-[4/5] rounded-[2rem] overflow-hidden border border-white/5 relative z-10">
             <img 
-              src="src/assets/images/model.jpg" 
+              src={modelImg} 
               alt="Founder working" 
               loading="lazy"
               decoding="async"
@@ -131,7 +133,7 @@ const About: React.FC = () => {
           </div>
           <div className="h-full min-h-[400px] relative">
             <img 
-              src="src/assets/images/leatherbag2.jpg" 
+              src={leatherbag2} 
               alt="Craftsmanship" 
               loading="lazy"
               decoding="async"
