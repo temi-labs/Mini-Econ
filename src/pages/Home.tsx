@@ -5,6 +5,8 @@ import { products } from '../data/products';
 import modelImg from '../assets/images/model.jpg';
 import model2Img from '../assets/images/model2.jpg';
 import model3Img from '../assets/images/model3.jpg';
+import BabeImg from '../assets/images/Babe.jpeg';
+import profileImg from '../assets/images/profile.png';
 import { motion } from 'framer-motion';
 
 
@@ -61,7 +63,7 @@ const CountdownTimer = () => {
 
 const Home: React.FC = () => {
   const featuredProducts = products.slice(0, 3);
-  const avatars = [modelImg, model2Img, model3Img, model2Img];
+  const avatars = [BabeImg, profileImg, modelImg, model2Img];
 
   return (
     <div className="space-y-24 pb-24">
