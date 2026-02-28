@@ -61,6 +61,7 @@ const CountdownTimer = () => {
 
 const Home: React.FC = () => {
   const featuredProducts = products.slice(0, 3);
+  const avatars = [modelImg, model2Img, model3Img, model2Img];
 
   return (
     <div className="space-y-24 pb-24">
@@ -380,12 +381,11 @@ const Home: React.FC = () => {
           </div>
           
           <div className="flex -space-x-4">
-             {[1, 2, 3, 4].map((i) => (
-               <div key={i} className="w-16 h-16 rounded-full bg-gray-800 border-4 border-[#1a1a1a] overflow-hidden">
-                 <img src={`https://images.unsplash.com/photo-${1500000000000 + i}?auto=format&fit=crop&q=80&w=100`} alt="User" loading="lazy" decoding="async" className="w-full h-full object-cover" />
-                 {/* <img src="src/assets/images/model.jpg"  alt="User" className="w-full h-full object-cover" /> */}
-               </div>
-             ))}
+            {avatars.map((src, idx) => (
+              <div key={idx} className="w-16 h-16 rounded-full bg-gray-800 border-4 border-[#1a1a1a] overflow-hidden">
+                <img src={src} alt={`Avatar ${idx + 1}`} loading="lazy" decoding="async" className="w-full h-full object-cover" />
+              </div>
+            ))}
           </div>
         </div>
       </section>
